@@ -22,8 +22,10 @@ public class TrackingController : MonoBehaviour
     void Update()
     {
         // CameraRigをplayerに追従させる
-        transform.position = player.position - prePosision;
-        prePosision = player.position;
+
+        // TODO: ちゃんと動いていなさそうなので確認。必ず初期位置に戻されていそう
+        // transform.position = player.position - prePosision;
+        // prePosision = player.position;
     }
 
     public void ResetHeight()
@@ -59,6 +61,6 @@ public class TrackingController : MonoBehaviour
     {
         ResetHeight();
         ResetWidth();
-        ResetRot();
+        // ResetRot();
     }
 }

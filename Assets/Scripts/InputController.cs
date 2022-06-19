@@ -7,6 +7,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private HandGripController lHand, rHand;
     [SerializeField] private Ring ring;
     [SerializeField] private TrackingController cameraRig;
+    [SerializeField] private FingerController fController;
 
     // Start is called before the first frame update
     void Start()
@@ -17,29 +18,38 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     cameraRig.ResetHeight();
+        // }
+
+        // if (Input.GetKeyDown(KeyCode.A))
         if (OVRInput.GetDown(OVRInput.RawButton.LHandTrigger))
         {
-            lHand.targetState = true;
+            fController.grabL = true;
         }
         else if (OVRInput.GetUp(OVRInput.RawButton.LHandTrigger))
+        // else if (Input.GetKeyUp(KeyCode.A))
         {
-            lHand.targetState = false;
+            fController.grabL = false;
         }
 
         if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger))
         {
-            rHand.targetState = true;
+            fController.grabR = true;
         }
-        else if (OVRInput.GetUp(OVRInput.RawButton.LHandTrigger))
+        else if (OVRInput.GetUp(OVRInput.RawButton.RHandTrigger))
         {
-            rHand.targetState = false;
+            fController.grabR = false;
         }
 
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
+        // if (Input.GetKeyDown(KeyCode.A))
         {
             ring.FlameOn();
         }
         else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))
+        // else if (Input.GetKeyUp(KeyCode.A))
         {
             ring.FlameOff();
         }

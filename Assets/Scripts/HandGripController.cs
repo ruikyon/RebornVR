@@ -55,4 +55,9 @@ public class HandGripController : MonoBehaviour
             thum.GetChild(0).GetChild(0).localEulerAngles = new Vector3(0, -newRot, 0);
         }
     }
+
+    // private void LateUpdate()
+    // {
+    //     fingers[0].localEulerAngles = new Vector3(0, 0, 90);
+    // }
 }
