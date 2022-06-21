@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ddf3bbd12abca45ba92072fcd5741d, type: 3}
+  m_Name: HoldSword
+  m_EditorClassIdentifier: 
+  thum: -0.53
+  index: -0.13
+  middle: -0.29
+  ring: -0.42
+  little: -0.5
+  thumOpen: -0.65
+  indexOpen: -0.12
+  middleOpen: 0.3
+  ringOpen: 0
+  littleOpen: 0

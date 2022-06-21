@@ -8,6 +8,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private Ring ring;
     [SerializeField] private TrackingController cameraRig;
     [SerializeField] private FingerController fController;
+    [SerializeField] private FingerData[] fingerDatas;
 
     // Start is called before the first frame update
     void Start()
@@ -19,29 +20,24 @@ public class InputController : MonoBehaviour
     void Update()
     {
         // if (Input.GetKeyDown(KeyCode.A))
-        // {
-        //     cameraRig.ResetHeight();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.A))
         if (OVRInput.GetDown(OVRInput.RawButton.LHandTrigger))
         {
-            fController.grabL = true;
+            fController.lFingerData = fingerDatas[1];
         }
         else if (OVRInput.GetUp(OVRInput.RawButton.LHandTrigger))
         // else if (Input.GetKeyUp(KeyCode.A))
         {
-            fController.grabL = false;
+            fController.lFingerData = fingerDatas[0];
         }
 
-        if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger))
-        {
-            fController.grabR = true;
-        }
-        else if (OVRInput.GetUp(OVRInput.RawButton.RHandTrigger))
-        {
-            fController.grabR = false;
-        }
+        // if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger))
+        // {
+        //     fController.rFingerData = fingerDatas[1];
+        // }
+        // else if (OVRInput.GetUp(OVRInput.RawButton.RHandTrigger))
+        // {
+        //     fController.rFingerData = fingerDatas[0];
+        // }
 
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
         // if (Input.GetKeyDown(KeyCode.A))

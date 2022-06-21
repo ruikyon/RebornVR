@@ -1,62 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FingerController : MonoBehaviour
 {
+    public FingerData lFingerData, rFingerData;
+    private float[] lCurrent = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    private float[] rCurrent = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
     [SerializeField] private Animator animator;
-    private HumanPose _targetHumanPose;
 
-    private int[] lFingerIndexes = new int[] {
-        // 55,
-        57,58,59,61,62,63,65,66,67,69,70,71,73,74
+    private readonly int[][] lFingerIndexes = new int[][] {
+        new int[] {57,58},
+        new int[] {59,61,62},
+        new int[] {63,65,66},
+        new int[] {67,69,70},
+        new int[] {71,73,74},
+        new int[] {56},
+        new int[] {60},
+        new int[] {64},
+        new int[] {68},
+        new int[] {72},
     };
 
-    private int[] rFingerIndexes = new int[] {
-        // 75,
-        77,78,79,81,82,83,85,86,87,89,90,91,93,94
+    private readonly int[][] rFingerIndexes = new int[][] {
+        new int[] {77,78},
+        new int[] {79,81,82},
+        new int[] {83,85,86},
+        new int[] {87,89,90},
+        new int[] {91,93,94},
+        new int[] {76},
+        new int[] {80},
+        new int[] {84},
+        new int[] {88},
+        new int[] {92},
     };
 
-    private float curL = 0, curR = 0;
-
-    public bool grabL = false, grabR = false;
-
-    // Start is called before the first frame update
-    void Start()
+    private void LateUpdate()
     {
-
-    }
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        var targetL = grabL ? -1 : 0.4f;
-        var targetR = grabR ? -1 : 0.4f;
-        // {
-        // Animator avater → handler → HumanPose と渡す
-        // HumanPose の値を変更して、handlerへ渡すとHumanBoneに変更が適用される。
         var handler = new HumanPoseHandler(animator.avatar, animator.transform);
-        handler.GetHumanPose(ref _targetHumanPose);
+        HumanPose targetHumanPose = new HumanPose();
+        handler.GetHumanPose(ref targetHumanPose);
 
-        //HumanPoseを更新
-        int muscles = _targetHumanPose.muscles.Length;
-
-
-        foreach (var index in lFingerIndexes)
+        var lTargets = lFingerData.toArray();
+        for (var i = 0; i < 10; i++)
         {
-            float move = Time.deltaTime * (targetL - curL); //moveの係数だけ変化します
-            _targetHumanPose.muscles[index] = curL + move;
-            curL = curL + move;
+            lCurrent[i] += 10 * Time.deltaTime * (lTargets[i] - lCurrent[i]);
+
+            for (var j = 0; j < lFingerIndexes[i].Length; j++)
+            {
+                targetHumanPose.muscles[lFingerIndexes[i][j]] = lCurrent[i];
+            }
         }
 
-        foreach (var index in rFingerIndexes)
+        var rTargets = rFingerData.toArray();
+        for (var i = 0; i < 10; i++)
         {
-            float move = Time.deltaTime * (targetR - curR); //moveの係数だけ変化します
-            _targetHumanPose.muscles[index] = curR + move;
-            curR = curR + move;
+            rCurrent[i] += 10 * Time.deltaTime * (rTargets[i] - rCurrent[i]);
+
+            for (var j = 0; j < rFingerIndexes[i].Length; j++)
+            {
+                targetHumanPose.muscles[rFingerIndexes[i][j]] = rCurrent[i];
+            }
         }
 
-        //変更を適用する場合… SetHumanPose で変更した HumanPose を渡す
-        handler.SetHumanPose(ref _targetHumanPose);
+        handler.SetHumanPose(ref targetHumanPose);
     }
 }
