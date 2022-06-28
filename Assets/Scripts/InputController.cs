@@ -9,6 +9,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private TrackingController cameraRig;
     [SerializeField] private FingerController fController;
     [SerializeField] private FingerData[] fingerDatas;
+    [SerializeField] private Holder lHolder, rHolder;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +54,24 @@ public class InputController : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.RawButton.A))
         {
             cameraRig.ResetAll();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            rHolder.OnStartHold();
+        }
+        else if (Input.GetKeyUp(KeyCode.R))
+        {
+            rHolder.OnEndHold();
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            lHolder.OnStartHold();
+        }
+        else if (Input.GetKeyUp(KeyCode.T))
+        {
+            lHolder.OnEndHold();
         }
     }
 }

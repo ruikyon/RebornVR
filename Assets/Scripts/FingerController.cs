@@ -6,6 +6,8 @@ public class FingerController : MonoBehaviour
     private float[] lCurrent = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private float[] rCurrent = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+    [SerializeField] private Holder lHolder, rHolder;
+
     [SerializeField] private Animator animator;
 
     private readonly int[][] lFingerIndexes = new int[][] {
@@ -41,6 +43,10 @@ public class FingerController : MonoBehaviour
         handler.GetHumanPose(ref targetHumanPose);
 
         var lTargets = lFingerData.toArray();
+        if (lHolder.fingerData != null)
+        {
+            lTargets = lHolder.fingerData.toArray();
+        }
         for (var i = 0; i < 10; i++)
         {
             lCurrent[i] += 10 * Time.deltaTime * (lTargets[i] - lCurrent[i]);
@@ -52,6 +58,10 @@ public class FingerController : MonoBehaviour
         }
 
         var rTargets = rFingerData.toArray();
+        if (rHolder.fingerData != null)
+        {
+            rTargets = rHolder.fingerData.toArray();
+        }
         for (var i = 0; i < 10; i++)
         {
             rCurrent[i] += 10 * Time.deltaTime * (rTargets[i] - rCurrent[i]);
