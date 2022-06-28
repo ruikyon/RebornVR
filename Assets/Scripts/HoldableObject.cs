@@ -12,9 +12,9 @@ public class HoldableObject : MonoBehaviour
 
     public bool IsHolding { get { return state != HoldState.Free; } }
 
-    public Vector3 Position { get { return Position; } }
-    public Vector3 Rotation { get { return Rotation; } }
-    public FingerData FingerData { get { return FingerData; } }
+    public Vector3 Position { get { return position; } }
+    public Vector3 Rotation { get { return rotation; } }
+    public FingerData FingerData { get { return fingerData; } }
 
     private enum HoldState
     {
@@ -30,11 +30,26 @@ public class HoldableObject : MonoBehaviour
         if (state == HoldState.Moving)
         {
             // TODO: 左右をどうするか考える。のと係数は後ほど調整
-            transform.localPosition = Vector3.Lerp(transform.localPosition, Position, Time.deltaTime);
-            transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, Rotation, Time.deltaTime);
+            // right -> left (box)
+            // posX *= -1, rotZ -= 90
+            transform.localPosition = Vector3.Lerp(transform.localPosition, Position, Time.deltaTime * 5);
+            // transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, Rotation, Time.deltaTime);
 
-            var diff = transform.localPosition.magnitude - Position.magnitude;
-            if (diff < 0.1f)
+            // var newRot = Quaternion.FromToRotation(transform.localEulerAngles, Rotation);
+            // newRot.w *= Time.deltaTime;
+            // transform.localRotation *= newRot;
+
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(Rotation), Time.deltaTime * 5);
+
+            var dx = (transform.localPosition.x - Position.x) / Position.x;
+            var dy = (transform.localPosition.y - Position.y) / Position.y;
+            var dz = (transform.localPosition.z - Position.z) / Position.z;
+
+            var rx = (transform.localEulerAngles.x - Rotation.x) / Rotation.x;
+            var ry = (transform.localEulerAngles.y - Rotation.y) / Rotation.y;
+            var rz = (transform.localEulerAngles.z - Rotation.z) / Rotation.z;
+
+            if (dx < 0.01 && dy < 0.01 && dz < 0.01 && rx < 0.01 && ry < 0.01 && rz < 0.01)
             {
                 state = HoldState.Holding;
             }

@@ -17,7 +17,7 @@ public class Holder : MonoBehaviour
 
     public void OnStartHold()
     {
-        if (targetObject != null && holdableStack.Count > 0)
+        if (targetObject == null && holdableStack.Count > 0)
         {
             holdableStack[0].StartHold(this);
             targetObject = holdableStack[0];
@@ -40,6 +40,7 @@ public class Holder : MonoBehaviour
             var tmp = other.GetComponent<HoldableObject>();
             if (!holdableStack.Exists(holdable => holdable == tmp))
             {
+                Debug.Log("add holdable: " + other.name);
                 holdableStack.Add(tmp);
             }
         }

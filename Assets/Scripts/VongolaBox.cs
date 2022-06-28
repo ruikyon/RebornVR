@@ -37,7 +37,7 @@ public class VongolaBox : MonoBehaviour
         lidR.localEulerAngles = new Vector3(-newRot, 0, 0);
     }
 
-    private async void Activate()
+    public async void Activate()
     {
         isActive = true;
 
@@ -51,16 +51,5 @@ public class VongolaBox : MonoBehaviour
 
         targetState = false;
         isActive = false;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<Ring>() != null)
-        {
-            if (!isActive && other.GetComponent<Ring>().isActive)
-            {
-                Activate();
-            }
-        }
     }
 }
