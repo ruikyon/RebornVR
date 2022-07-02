@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: HoldSword
   m_EditorClassIdentifier: 
   thum: -0.53
-  index: -0.13
-  middle: -0.29
-  ring: -0.42
-  little: -0.5
+  index: -0.3
+  middle: -0.67
+  ring: -0.92
+  little: -1
   thumOpen: -0.65
-  indexOpen: -0.12
-  middleOpen: 0.3
+  indexOpen: -0.4
+  middleOpen: -0.25
   ringOpen: 0
-  littleOpen: 0
+  littleOpen: 0.37

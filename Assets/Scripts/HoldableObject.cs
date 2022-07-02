@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HoldableObject : MonoBehaviour
 {
+    private bool isRight = true;
+
+    // 右手に持つ時のパラメータ
     [SerializeField] private Vector3 position;
     [SerializeField] private Vector3 rotation;
     [SerializeField] private FingerData fingerData;
@@ -12,8 +15,33 @@ public class HoldableObject : MonoBehaviour
 
     public bool IsHolding { get { return state != HoldState.Free; } }
 
-    public Vector3 Position { get { return position; } }
-    public Vector3 Rotation { get { return rotation; } }
+    private Vector3 Position
+    {
+        get
+        {
+            if (!isRight)
+            {
+                return new Vector3(-position.x, position.y, position.z);
+            }
+
+            return position;
+        }
+    }
+
+    public Vector3 Rotation
+    {
+        get
+        {
+            if (!isRight)
+            {
+                // zの値を180を基準に対称にする
+                return new Vector3(rotation.x, -rotation.y, -rotation.z + 360);
+            }
+
+            return rotation;
+        }
+    }
+
     public FingerData FingerData { get { return fingerData; } }
 
     private enum HoldState
@@ -29,16 +57,7 @@ public class HoldableObject : MonoBehaviour
     {
         if (state == HoldState.Moving)
         {
-            // TODO: 左右をどうするか考える。のと係数は後ほど調整
-            // right -> left (box)
-            // posX *= -1, rotZ -= 90
             transform.localPosition = Vector3.Lerp(transform.localPosition, Position, Time.deltaTime * 5);
-            // transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, Rotation, Time.deltaTime);
-
-            // var newRot = Quaternion.FromToRotation(transform.localEulerAngles, Rotation);
-            // newRot.w *= Time.deltaTime;
-            // transform.localRotation *= newRot;
-
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(Rotation), Time.deltaTime * 5);
 
             var dx = (transform.localPosition.x - Position.x) / Position.x;
@@ -64,6 +83,8 @@ public class HoldableObject : MonoBehaviour
         GetComponent<Rigidbody>().useGravity = false;
 
         targetCollider.enabled = false;
+
+        isRight = holder.isRight;
     }
 
     public void EndHold()

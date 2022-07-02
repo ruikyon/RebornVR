@@ -6,6 +6,11 @@ public class VongolaBoxLid : MonoBehaviour
 {
     private VongolaBox box;
 
+    private void Start()
+    {
+        box = transform.parent.GetComponent<VongolaBox>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Ring>() != null)

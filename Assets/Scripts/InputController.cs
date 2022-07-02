@@ -23,22 +23,38 @@ public class InputController : MonoBehaviour
         // if (Input.GetKeyDown(KeyCode.A))
         if (OVRInput.GetDown(OVRInput.RawButton.LHandTrigger))
         {
-            fController.lFingerData = fingerDatas[1];
+            var res = lHolder.OnStartHold();
+            if (!res)
+            {
+                fController.lFingerData = fingerDatas[1];
+            }
         }
         else if (OVRInput.GetUp(OVRInput.RawButton.LHandTrigger))
         // else if (Input.GetKeyUp(KeyCode.A))
         {
-            fController.lFingerData = fingerDatas[0];
+            var res = lHolder.OnEndHold();
+            if (!res)
+            {
+                fController.lFingerData = fingerDatas[0];
+            }
         }
 
-        // if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger))
-        // {
-        //     fController.rFingerData = fingerDatas[1];
-        // }
-        // else if (OVRInput.GetUp(OVRInput.RawButton.RHandTrigger))
-        // {
-        //     fController.rFingerData = fingerDatas[0];
-        // }
+        if (OVRInput.GetDown(OVRInput.RawButton.RHandTrigger))
+        {
+            var res = rHolder.OnStartHold();
+            if (!res)
+            {
+                fController.rFingerData = fingerDatas[1];
+            }
+        }
+        else if (OVRInput.GetUp(OVRInput.RawButton.RHandTrigger))
+        {
+            var res = rHolder.OnEndHold();
+            if (!res)
+            {
+                fController.rFingerData = fingerDatas[0];
+            }
+        }
 
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))
         // if (Input.GetKeyDown(KeyCode.A))

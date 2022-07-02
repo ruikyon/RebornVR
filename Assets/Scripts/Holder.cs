@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Holder : MonoBehaviour
 {
+    public bool isRight = true;
+
     public FingerData fingerData
     {
         get
@@ -15,22 +17,30 @@ public class Holder : MonoBehaviour
     private List<HoldableObject> holdableStack = new List<HoldableObject>();
     private HoldableObject targetObject;
 
-    public void OnStartHold()
+    public bool OnStartHold()
     {
         if (targetObject == null && holdableStack.Count > 0)
         {
             holdableStack[0].StartHold(this);
             targetObject = holdableStack[0];
+
+            return true;
         }
+
+        return false;
     }
 
-    public void OnEndHold()
+    public bool OnEndHold()
     {
         if (targetObject != null)
         {
             targetObject.EndHold();
             targetObject = null;
+
+            return true;
         }
+
+        return false;
     }
 
     private void OnTriggerEnter(Collider other)
